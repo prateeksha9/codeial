@@ -1,6 +1,5 @@
 const User = require('../models/users')
 
-
 module.exports.profile = function(req,res){
     return res.render('users',{
         title: 'users'
@@ -8,21 +7,23 @@ module.exports.profile = function(req,res){
     
 }
 
-
 module.exports.posts = function(req,res){
     res.end('<h1>Posts are rendered</h1>')
 }
 
-
-
 module.exports.signup = function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     res.render('user_signup', {
         title: 'Codeial | Sign up'
     })
 }
 
-
 module.exports.signin = function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     res.render('user_signin', {
         title: 'Codeial | Signin'
     })
@@ -39,6 +40,7 @@ module.exports.create=function(req, res){
             console.log('Error in finding user in signing up');
             return
         }
+ 
         if(!user){
             User.create(req.body, function(err,user){
                 if(err){
@@ -55,5 +57,11 @@ module.exports.create=function(req, res){
 
 // Sign in and create session for users
 module.exports.createSession = function(req, res){
-    // TODO
+    return res.redirect('/');
+}
+
+
+module.exports.destroySession = function(req,res){
+    req.logout();
+    return res.redirect('/');
 }
