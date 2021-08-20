@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-
 const postSchema =  new mongoose.Schema({
     content:{
-        type: String ,
+        type: String,
         required: true, 
     },
     user: {
+        // refer to user database/collection
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }
