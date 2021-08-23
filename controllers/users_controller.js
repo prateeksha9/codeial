@@ -1,3 +1,5 @@
+// same as before... No edits required
+
 const User = require('../models/users')
 
 module.exports.profile = function(req,res){
@@ -8,6 +10,7 @@ module.exports.profile = function(req,res){
         });
     })
 }
+
 
 module.exports.update = function(req, res){
     if(req.user.id == req.params.id){
@@ -70,11 +73,13 @@ module.exports.create=function(req, res){
 
 // Sign in and create session for users
 module.exports.createSession = function(req, res){
+    req.flash('success', 'Logged in Successfully');
     return res.redirect('/');
 }
 
 
 module.exports.destroySession = function(req,res){
     req.logout();
+    req.flash('Success', 'Logged out Successfully');
     return res.redirect('/');
 }

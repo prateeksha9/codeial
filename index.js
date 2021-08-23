@@ -12,6 +12,8 @@ const session = require('express-session')
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongo')(session);
+const flash= require('connect-flash');
+const customMware = require('./config/middleware');
 
 // extract style and scripts to layout
 app.set('layout extractStyles', true);
@@ -27,8 +29,6 @@ app.use(sassMiddleware({
     debug: true,
     outputStyle: 'expanded',
     prefix:'/css'
-
-
 }));
 
 app.use(express.urlencoded());
@@ -67,6 +67,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
+//flash uses session cookies... hence it is needed to be set up after session cookie
+app.use(flash());
+app.use(customMware.setFlash);
 
 
 // use express router
