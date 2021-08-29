@@ -13,6 +13,14 @@ module.exports.create = async function(req,res){
             user: req.user._id,
         });
 
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    comment:comment
+                },
+                message: "Comment created!"
+            })
+        }
             post.comments.push(comment);
             post.save();            
 
@@ -33,6 +41,14 @@ module.exports.destroy = async function(req,res){
             let post = Post.findByIdAndUpdate(postId, {$pull : {comments:req.params.id}}, function(err,post){
                 return res.redirect('back');
             })
+            if(req.xhr){
+                return res.status(200).json({
+                    data:{
+                        comment_id: data.comment_id
+                    }, 
+                    message:"Comment Deleted"
+                })
+            }
         } else{
             return res.redirect('back');
         }
